@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI・クラウド情報区分ガイド</title>
+<meta name="description" content="日本税理士会連合会「税理士事務所のためのAI・クラウド活用ガイドライン」をもとに、AIに入れてよい情報の区分と注意点を整理した事務所内共有レポート。">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow, noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F4F5F8; --surface:#FFFFFF; --ink:#1B2232; --muted:#586174; --line:#DCE0E8;
+  --accent:#2C3C8C; --accent-bg:#E8EBF7;
+  --ban:#B42318; --ban-bg:#FCEBE9;
+  --warn:#8A5800; --warn-bg:#FFF3D6;
+  --a:#9A3412; --a-bg:#FBEBE1;
+  --b:#0E6B59; --b-bg:#E1F2EE;
+  --f-display:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161F; --surface:#1A2030; --ink:#E7EAF2; --muted:#A3AABB; --line:#2E3648;
+  --accent:#9FB0FF; --accent-bg:#232C4A;
+  --ban:#FF8A7E; --ban-bg:#3A1C1C;
+  --warn:#F2C062; --warn-bg:#352A12;
+  --a:#F6A377; --a-bg:#3A2418;
+  --b:#6FD3BD; --b-bg:#14322C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161F; --surface:#1A2030; --ink:#E7EAF2; --muted:#A3AABB; --line:#2E3648;
+  --accent:#9FB0FF; --accent-bg:#232C4A;
+  --ban:#FF8A7E; --ban-bg:#3A1C1C;
+  --warn:#F2C062; --warn-bg:#352A12;
+  --a:#F6A377; --a-bg:#3A2418;
+  --b:#6FD3BD; --b-bg:#14322C; color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.85;padding-inline:16px;padding-block:32px 72px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;line-height:1.4;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding-left:1.3em}
+li+li{margin-top:.35em}
+strong{font-weight:700}
+.mono{font-family:var(--f-mono);font-size:.82em;letter-spacing:.02em}
+.muted{color:var(--muted)}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+header{display:flex;flex-direction:column;gap:18px;border-bottom:3px solid var(--ink);padding-bottom:28px}
+.eyebrow{font-family:var(--f-display);font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--accent)}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900;letter-spacing:.01em}
+.lead{font-size:16.5px;max-width:62ch}
+.meta{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;font-size:13.5px;color:var(--muted)}
+.meta dt{font-weight:700}
+.meta dd{margin:0}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px}
+nav.toc a{font-size:13.5px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+nav.toc a:hover,nav.toc a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+
+/* key points */
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.key{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.key h3{font-size:15px}
+.key p{font-size:14px;color:var(--muted)}
+
+/* sections */
+section{display:flex;flex-direction:column;gap:22px;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.sec-no{font-family:var(--f-mono);font-size:15px;color:var(--muted);white-space:nowrap}
+h2{font-size:clamp(21px,3.4vw,26px);font-weight:900}
+h3{font-size:18px;font-weight:700}
+.tldr{display:grid;grid-template-columns:max-content 1fr;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:6px;padding:12px 16px;font-size:15px}
+.tldr b{font-family:var(--f-display);color:var(--accent);white-space:nowrap}
+.tag{display:inline-block;font-family:var(--f-display);font-weight:700;font-size:13px;padding:1px 10px;border-radius:4px;white-space:nowrap;vertical-align:.1em}
+.tag.ban{background:var(--ban-bg);color:var(--ban)}
+.tag.a{background:var(--a-bg);color:var(--a)}
+.tag.b{background:var(--b-bg);color:var(--b)}
+.band{border-left:6px solid var(--line);padding-left:16px}
+.band.a{border-color:var(--a)} .band.b{border-color:var(--b)} .band.ban{border-color:var(--ban)}
+
+/* 区分とは: 3 cards */
+.kubun{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.kcard{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:0 0 16px;display:flex;flex-direction:column;gap:10px;min-width:0;overflow:hidden}
+.kcard .kh{padding:12px 18px;font-family:var(--f-display);font-weight:900;font-size:18px;display:flex;align-items:center;gap:10px}
+.kcard .kh small{font-size:12.5px;font-weight:700;letter-spacing:.08em}
+.kcard.ban .kh{background:var(--ban-bg);color:var(--ban)}
+.kcard.a .kh{background:var(--a-bg);color:var(--a)}
+.kcard.b .kh{background:var(--b-bg);color:var(--b)}
+.kcard dl{margin:0;padding:0 18px;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:14px}
+.kcard dt{font-weight:700;color:var(--muted);white-space:nowrap}
+.kcard dd{margin:0}
+
+/* 用語 */
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.term h4{font-size:15.5px;color:var(--accent)}
+.term p{font-size:14px}
+.term .yomi{font-size:12.5px;color:var(--muted)}
+.dpa{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:6px;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.dpa h3{color:var(--accent)}
+.dpa .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.dpa .cell{display:flex;flex-direction:column;gap:6px;min-width:0}
+.dpa .cell h4{font-size:14.5px}
+.dpa .cell p,.dpa .cell li{font-size:14px}
+.dpa .why{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.dpa .why > div{border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:14px;min-width:0}
+.dpa .why .arrow{display:grid;place-items:center;font-family:var(--f-mono);color:var(--muted)}
+.dpa .why .bad{border-color:var(--ban);background:var(--ban-bg)}
+.dpa .why .good{border-color:var(--b);background:var(--b-bg)}
+.dpa .why b{display:block;font-family:var(--f-display);margin-bottom:2px}
+.parties{display:grid;grid-template-columns:1fr minmax(0,1.1fr) 1fr minmax(0,1.1fr) 1fr;gap:8px;align-items:center}
+.parties .p{border:2px solid var(--line);border-radius:6px;padding:12px 10px;text-align:center;font-size:13.5px;min-width:0;background:var(--surface)}
+.parties .p b{display:block;font-family:var(--f-display);font-size:16px;margin-bottom:2px}
+.parties .p.me{border-color:var(--accent);background:var(--accent-bg)}
+.parties .link{text-align:center;font-size:12.5px;color:var(--muted);min-width:0}
+.parties .link b{display:block;font-family:var(--f-display);font-size:14px;color:var(--ink)}
+.parties .link.dpa-l b{color:var(--accent)}
+.parties .link .ln{display:block;border-top:2px solid var(--line);margin:4px 0}
+.parties .link.dpa-l .ln{border-top:3px solid var(--accent)}
+@media (max-width:640px){.parties{grid-template-columns:1fr}.parties .link .ln{width:2px;height:16px;border-top:none;border-left:2px solid var(--line);margin:4px auto}.parties .link.dpa-l .ln{border-left:3px solid var(--accent)}}
+.who{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 18px}
+.who dt{font-family:var(--f-display);font-weight:700;white-space:nowrap}
+.who dd{margin:0}
+@media (max-width:480px){.who{grid-template-columns:1fr}.who dd{margin-bottom:6px}}
+@media (max-width:600px){.dpa .why{grid-template-columns:1fr}.dpa .why .arrow{transform:rotate(90deg)}}
+
+/* flow */
+.flow{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px}
+.step{display:grid;grid-template-columns:44px 1fr minmax(0,auto);gap:12px;align-items:center;padding:14px 0}
+.step+.step{border-top:1px dashed var(--line)}
+.q{font-family:var(--f-mono);font-size:13px;color:var(--accent);background:var(--accent-bg);border-radius:4px;text-align:center;padding:4px 0}
+.step .ask{font-weight:700;min-width:0}
+.step .ask small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.step .to{font-size:14px;white-space:nowrap}
+@media (max-width:560px){.step{grid-template-columns:40px 1fr}.step .to{grid-column:2;white-space:normal}}
+
+/* tables */
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--f-display);font-size:13px;color:var(--muted);background:var(--bg)}
+tbody tr:last-child td{border-bottom:none}
+td.c{text-align:center;white-space:nowrap}
+.ok{color:var(--b);font-weight:700} .ng{color:var(--ban);font-weight:700} .cond{color:var(--warn);font-weight:700}
+
+/* condition list */
+.conds{counter-reset:c;list-style:none;padding:0;display:grid;gap:8px}
+.conds li{counter-increment:c;display:grid;grid-template-columns:30px 1fr;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:0}
+.conds li::before{content:counter(c);font-family:var(--f-mono);color:var(--a);font-weight:500}
+.conds.b li::before{color:var(--b)}
+.conds .ref{font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+/* do / don't */
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;align-items:start}
+.box{border-radius:6px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0;border:1px solid var(--line);background:var(--surface)}
+.box h4{font-size:15.5px;display:flex;align-items:center;gap:8px}
+.box h4 .mark{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:4px;font-size:13px;font-family:var(--f-mono)}
+.box.ban{border-top:4px solid var(--ban)} .box.ban h4{color:var(--ban)} .box.ban .mark{background:var(--ban-bg)}
+.box.warn{border-top:4px solid var(--warn)} .box.warn h4{color:var(--warn)} .box.warn .mark{background:var(--warn-bg)}
+.box.do{border-top:4px solid var(--accent)} .box.do h4{color:var(--accent)} .box.do .mark{background:var(--accent-bg)}
+.box li{font-size:14.5px}
+.box li small{display:block;color:var(--muted);font-size:13px}
+
+.uses{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0}
+.uses li{margin:0;font-size:13.5px;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:4px 10px}
+
+/* incident */
+.incident{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;list-style:none;padding:0}
+.incident li{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:4px;font-size:13px}
+.incident b{font-family:var(--f-display);font-size:15px}
+.incident .n{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+@media (max-width:700px){.incident{grid-template-columns:1fr 1fr}}
+@media (max-width:420px){.incident{grid-template-columns:1fr}}
+
+/* tool cards */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.tool h3{font-size:17px}
+.tool .cat{font-size:12.5px;color:var(--muted)}
+.tool ul{font-size:14px}
+.tool .rule{font-size:13.5px;background:var(--a-bg);color:var(--ink);border-radius:4px;padding:8px 12px}
+.tool .rule b{color:var(--a)}
+
+.check{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.check h3{font-size:16px}
+.check ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px 18px;font-size:14px;padding-left:1.4em}
+.check li{margin:0}
+.check .must{color:var(--a);font-weight:700}
+
+.callout{background:var(--accent-bg);border-radius:6px;padding:14px 18px;font-size:14.5px}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:8px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">事務所内 共有レポート</span>
+  <h1>AI・クラウド情報区分ガイド</h1>
+  <p class="lead">日本税理士会連合会「税理士事務所のためのAI・クラウド活用ガイドライン」をもとに、事務所の職員がAIに入れてよい情報の分け方と、区分ごとにやってはいけないこと・気をつけることを整理しました。</p>
+  <dl class="meta">
+    <dt>出典</dt><dd>日本税理士会連合会 デジタル・システム委員会「税理士事務所のためのAI・クラウド活用ガイドライン」Ver1.0（令和8年9月25日公開）</dd>
+    <dt>参照した文書</dt><dd>概要版／文書B（詳細解説・法的根拠編）／文書C（事務所導入・規程集）。文書A（メインガイドライン）は未参照</dd>
+    <dt>条文の表記</dt><dd>「規程 第○条」は、文書Cに収録されている<strong>事務所規程のひな型</strong>の条番号です（事務所で採用すれば、そのまま事務所の規程になります）</dd>
+    <dt>作成日</dt><dd>2026年10月2日</dd>
+  </dl>
+  <nav class="toc" aria-label="目次">
+    <a href="#s0">区分とは</a>
+    <a href="#terms">用語の説明</a>
+    <a href="#s1">1. 区分の分け方</a>
+    <a href="#s2">2. 区分A</a>
+    <a href="#s3">3. 区分B</a>
+    <a href="#s4">4. 共通ルール</a>
+    <a href="#tools">ツール例</a>
+    <a href="#forms">様式一覧</a>
+  </nav>
+</header>
+
+<dl class="who" aria-label="このレポートでの呼び方">
+  <dt>事務所</dt><dd>税理士事務所・税理士法人。AIやクラウドのツールを契約し、管理する側</dd>
+  <dt>職員</dt><dd>事務所で働く税理士・スタッフ。実際にツールに情報を入力する人（規程では「所員」）</dd>
+  <dt>担当税理士</dt><dd>その顧問先を担当し、AIの出力を確認・承認する税理士</dd>
+  <dt>顧問先</dt><dd>事務所のお客さま（法人・個人）</dd>
+  <dt>本人</dt><dd>個人情報の持ち主。顧問先の社長や個人の顧問先のほか、顧問先の従業員・取引先なども含む</dd>
+  <dt>AI会社</dt><dd>ChatGPT・Claude・Gemini・Google Driveなど、AI・クラウドサービスを提供する会社</dd>
+</dl>
+
+<div class="keys">
+  <div class="key"><h3>AIは使ってよい</h3><p>ガイドラインは禁止リストではありません。税理士事務所が条件を守って、AIを積極的に使うことを求めています。</p></div>
+  <div class="key"><h3>決め手は「情報」と「プラン」</h3><p>使ってよいかどうかは、ツールの名前では決まりません。職員が入れる情報の区分と、事務所が契約しているプラン（企業版かどうか）で決まります。</p></div>
+  <div class="key"><h3>最後に責任を持つのは税理士</h3><p>AIが出したものは下書きです。顧問先に渡す前に、必ず担当税理士が確認・承認します。</p></div>
+</div>
+
+<!-- 0 区分とは -->
+<section id="s0">
+  <div class="sec-head"><span class="sec-no">前提</span><h2>「区分」とは何か</h2></div>
+  <div class="tldr"><b>要点</b><span>AIやクラウドに入れる情報を、「漏れたときの重さ」で3段階に分けたものです。区分によって、使えるツールと守るべき手続きが変わります。</span></div>
+
+  <p>職員がAIやクラウドサービスに情報を入力することは、<strong>その情報を事務所の外にある、AI会社のサーバーに送ること</strong>です。情報には、送ってよいものと送ってはいけないものがあります。送ってよい情報でも、情報の種類によって「どんな契約のツールなら送ってよいか」が違います。</p>
+  <p>この「情報の重さ」で分けたものが<strong>区分</strong>です。ガイドラインは、情報を次の3つに分けています。職員が入力する前に「この情報はどの区分か」を自分で判断することが、すべての出発点になります。</p>
+
+  <div class="kubun">
+    <div class="kcard ban">
+      <div class="kh"><small>入力禁止</small>マイナンバー</div>
+      <dl>
+        <dt>どんな情報</dt><dd>マイナンバー（個人番号）が含まれる情報</dd>
+        <dt>なぜ</dt><dd>マイナンバー法で、専用システム以外への提供が制限されている</dd>
+        <dt>扱い</dt><dd>職員は、汎用のAI・クラウドに入れてはいけない。番号を消すか、事務所が承認した専用システムを使う</dd>
+      </dl>
+    </div>
+    <div class="kcard a">
+      <div class="kh"><small>区分A</small>顧問先の情報・個人情報</div>
+      <dl>
+        <dt>どんな情報</dt><dd>顧問先の財務データ、個人情報、機密情報。一般に知られていないもの</dd>
+        <dt>なぜ</dt><dd>税理士法の守秘義務と、個人情報保護法がかかる</dd>
+        <dt>扱い</dt><dd>事務所が契約し、条件を満たした<strong>企業版</strong>のツールだけで扱える</dd>
+      </dl>
+    </div>
+    <div class="kcard b">
+      <div class="kh"><small>区分B</small>公開情報・一般的な情報</div>
+      <dl>
+        <dt>どんな情報</dt><dd>法令・通達、公表済みの数字、固有名詞を含まない文章</dd>
+        <dt>なぜ</dt><dd>守秘義務の対象ではない</dd>
+        <dt>扱い</dt><dd>事務所が承認したツールなら、<strong>無料版でも</strong>扱える</dd>
+      </dl>
+    </div>
+  </div>
+
+  <p>区分を分ける理由は、<strong>法律上のリスクが情報によって違う</strong>からです。すべてを「禁止」にすると仕事にならず、すべてを「自由」にすると法令違反になります。そこで事務所は、区分Bの情報は気軽にAIで扱い、区分Aの情報は手続きを整えてから扱い、マイナンバーは入れない、という使い分けをします。これがガイドライン全体の骨組みです。</p>
+</section>
+
+<!-- 用語 -->
+<section id="terms">
+  <div class="sec-head"><span class="sec-no">前提</span><h2>先に知っておく用語</h2></div>
+  <div class="tldr"><b>要点</b><span>この先に何度も出てくる言葉です。特に「DPA」と「3つの鉄則」は、区分Aを使えるかどうかを決める中心の言葉です。</span></div>
+
+  <div class="dpa">
+    <h3>DPA（データ処理契約）</h3>
+    <p>DPAは <span class="mono">Data Processing Agreement</span> の略で、日本語では「データ処理契約」と呼ばれます。<strong>税理士事務所</strong>と<strong>AI会社</strong>の間で結ぶ契約です。AI会社は、事務所から預かったデータを「事務所の指示した目的以外に使わない」「きちんと守る」と約束します。</p>
+
+    <h4 style="font-size:15px">誰と誰が結ぶのか</h4>
+    <div class="parties" role="img" aria-label="顧問先と事務所は顧問契約と同意書でつながり、事務所とAI会社はDPAでつながる。顧問先とAI会社の間に直接の契約はない">
+      <div class="p"><b>顧問先</b>情報を預ける側</div>
+      <div class="link"><span class="ln"></span><b>顧問契約＋同意書</b>様式07</div>
+      <div class="p me"><b>税理士事務所</b>ツールを契約する側</div>
+      <div class="link dpa-l"><span class="ln"></span><b>DPA</b>データ処理契約</div>
+      <div class="p"><b>AI会社</b>サービスを提供する側</div>
+    </div>
+    <ul style="font-size:14px">
+      <li>DPAを結ぶのは<strong>事務所</strong>です。契約の名義は、事務所が契約した企業版のプランになります。</li>
+      <li><strong>職員個人</strong>が個人アカウントで結ぶものではありません。職員が個人で契約したプランは、事務所のDPAの対象外です。</li>
+      <li><strong>顧問先はDPAの当事者ではありません。</strong>顧問先との間では、DPAとは別に、事務所が「AIを使うこと」を説明して同意をもらいます（様式07）。</li>
+    </ul>
+
+    <div class="why">
+      <div class="bad"><b>DPAがない場合</b>事務所がAIに顧問先の個人情報を入れると、事務所がAI会社に個人情報を渡した「第三者提供」になります（個人情報保護法第27条）。本人の同意がなければ<strong>法令違反</strong>です。</div>
+      <div class="arrow">→ DPAを結ぶと →</div>
+      <div class="good"><b>DPAがある場合</b>AI会社は、事務所の「委託先」という扱いになります。本人の同意は不要になる代わりに、事務所がAI会社を監督する義務を負います。</div>
+    </div>
+
+    <div class="grid">
+      <div class="cell">
+        <h4>なぜ必要なのか</h4>
+        <p>事務所が、本人の同意をもらわずに顧問先の個人情報をAIに入れるには、AI会社を「第三者」ではなく「委託先」として扱える必要があります。その法律上の根拠になるのがDPAです。</p>
+      </div>
+      <div class="cell">
+        <h4>どうやって結ぶのか</h4>
+        <p>事務所が企業版（ビジネス向け有料プラン）を契約すると、多くのサービスでは<strong>利用規約の一部としてDPAが自動的に適用されます</strong>。事務所が別に申し込む必要があるサービスもあります。無料版・個人版には、DPAがないのが普通です。</p>
+      </div>
+      <div class="cell">
+        <h4>何を確認するのか</h4>
+        <p>事務所の運用担当者が、契約前にDPAの中身を確認します。</p>
+        <ul>
+          <li>個人データの取扱い・安全管理が定められているか</li>
+          <li>再委託先（AI会社がさらに使う外部会社）の管理が定められているか</li>
+          <li>データの保存場所と削除方法が書かれているか</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <h4>結んだあとにすること</h4>
+        <p>DPAを結ぶと、事務所に<strong>委託先（AI会社）を監督する義務</strong>が生じます（個人情報保護法第25条）。運用担当者が年1回以上、AI会社の状況を確認し、様式06に記録します。</p>
+      </div>
+    </div>
+    <p class="muted" style="font-size:13.5px">DPAの有無は、各サービスの「利用規約」「プライバシーポリシー」「Trust Center（信頼性に関する情報をまとめたページ）」で確認できます。「DPA」「Data Processing Addendum」で検索すると見つかります。</p>
+  </div>
+
+  <div class="terms">
+    <div class="term">
+      <h4>企業版（ビジネス向け有料プラン）</h4>
+      <p>複数人で使うことを前提にした有料プランです。管理者がメンバーの権限や設定を一括で管理でき、DPAが結べます。「Team」「Business」「Enterprise」などの名前がついています。<strong>個人向けの有料プラン（Plus・Proなど）は企業版ではありません。</strong></p>
+    </div>
+    <div class="term">
+      <h4>学習利用オフ</h4>
+      <p>職員が入力した内容を、AI会社が<strong>AIの学習や改善に使わないようにする設定</strong>です。オフにしないと、顧問先の情報がAIに取り込まれ、他の利用者への回答に混ざるおそれがあります。企業版は最初からオフのことが多いですが、運用担当者が設定画面を自分の目で確認し、確認日を記録します。</p>
+    </div>
+    <div class="term">
+      <h4>3つの鉄則</h4>
+      <p>区分Aの情報を安全に扱うための、ガイドラインの中心ルールです。<br><strong>鉄則1</strong>：事務所として企業版を契約する<br><strong>鉄則2</strong>：事務所がAI会社とDPAを結び、学習利用をオフにする<br><strong>鉄則3</strong>：事務所でルールを作り、職員を教育し、年1回以上の定期確認を行う</p>
+    </div>
+    <div class="term">
+      <h4>承認済みツール・管理台帳</h4>
+      <p>事務所として「業務で使ってよい」と決めたツールのことです。職員が申請書（様式02）を出し、管理責任者が承認し、<strong>管理台帳（様式01）</strong>に登録して初めて、職員はそのツールを使えます。台帳には「区分Aで使える」「区分Bだけ」のどちらで承認したかも書きます。</p>
+    </div>
+    <div class="term">
+      <h4>管理責任者・運用担当者・品質責任者</h4>
+      <p>事務所内の3つの役割です。<strong>管理責任者</strong>（所長など）はツールの承認と最終判断、<strong>運用担当者</strong>（IT担当）は設定管理と定期確認、<strong>品質責任者</strong>（担当税理士）はAI出力のレビュー基準と教育を担当します。小規模な事務所では、1人が兼ねてかまいません。</p>
+    </div>
+    <div class="term">
+      <h4>越境（えっきょう）</h4>
+      <p>事務所が、海外の会社のサービスに個人データを渡すことです（個人情報保護法第28条）。ChatGPT・Claude・Gemini・Google Driveなど、よく使うサービスの多くが当てはまります。本人の同意なしで使うには、その会社が<strong>日本と同じ水準で個人情報を守っていること</strong>を、事務所が年1回以上確認します。</p>
+    </div>
+    <div class="term">
+      <h4>シャドーIT</h4>
+      <p>職員が、事務所の承認を受けずに個人で契約したツールを業務に使うことです。管理者が存在を知らないため、情報漏えいに気づけません。ガイドラインが最も警戒していることの一つです。</p>
+    </div>
+    <div class="term">
+      <h4>7項目チェック</h4>
+      <p>事務所が新しいツールを承認するときの確認項目です（付録に一覧があります）。区分Aで使うツールは、①企業版か ②DPAがあるか ③学習利用を止められるか、の3つが必須です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-no">01</span><h2>どうやって区分を分けるか</h2></div>
+  <div class="tldr"><b>要点</b><span>「マイナンバーがあるか」→「一般に知られていない顧問先の情報か」の順に見ます。事務所が顧問先から受け取った資料と、それを加工したものは、原則として区分Aです。</span></div>
+
+  <p>職員は、AIやクラウドに情報を入れる前に、上から順に確認します。判断できないときは、入力せずに管理責任者に相談します。</p>
+
+  <div class="flow">
+    <div class="step">
+      <span class="q">Q1</span>
+      <div class="ask">マイナンバー（個人番号）が含まれているか<small>利用規約で入力が禁止されている情報もここに含みます</small></div>
+      <div class="to">はい → <span class="tag ban">入力禁止</span></div>
+    </div>
+    <div class="step">
+      <span class="q">Q2</span>
+      <div class="ask">一般に知られていない、顧問先の情報・個人情報・機密情報か<small>顧問先から受け取った資料と、それを加工したものは原則としてここに当たります</small></div>
+      <div class="to">はい → <span class="tag a">区分A</span></div>
+    </div>
+    <div class="step">
+      <span class="q">Q3</span>
+      <div class="ask">それ以外（公開情報・一般的な情報・匿名化した情報）</div>
+      <div class="to">→ <span class="tag b">区分B</span></div>
+    </div>
+  </div>
+
+  <h3>区分Aと区分Bを分ける基準</h3>
+  <p>基準は「顧問先の情報かどうか」ではありません。<strong>税理士法第38条の「秘密」、つまり一般に知られていない事項かどうか</strong>です（文書B 1-1）。そのため、顧問先の情報でも、すでに公開されているものなら区分Bになります。逆に、事務所が自分で作ったメモでも、顧問先について知ったことが書かれていれば区分Aになります。</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>入力したい情報の例</th><th>区分</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>扶養控除等申告書（マイナンバーの記載あり）</td><td class="c"><span class="tag ban">入力禁止</span></td><td>マイナンバー法の制限</td></tr>
+        <tr><td>顧問先から受け取った決算書・通帳・請求書</td><td class="c"><span class="tag a">区分A</span></td><td>一般に知られていない事項</td></tr>
+        <tr><td>事務所が作った試算表・分析資料・メモ</td><td class="c"><span class="tag a">区分A</span></td><td>顧問先の資料を加工したものも秘密に当たる</td></tr>
+        <tr><td>決算書から読み取った資金繰りの状況など、作業中に気づいたこと</td><td class="c"><span class="tag a">区分A</span></td><td>「自己の判断によって知り得た事実」も秘密に含まれる</td></tr>
+        <tr><td>顧問先との面談・電話・会議の会話</td><td class="c"><span class="tag a">区分A</span></td><td>会話の中身は顧問先の情報</td></tr>
+        <tr><td>マイナンバー部分を紙の段階で黒塗りしてからスキャンした申告書</td><td class="c"><span class="tag a">区分A</span></td><td>番号は消えても、氏名などの個人情報が残る</td></tr>
+        <tr><td>上場している顧問先の有価証券報告書の数値</td><td class="c"><span class="tag b">区分B</span></td><td>公表済みなので守秘義務の対象外</td></tr>
+        <tr><td>法令・通達・判例・税制改正の情報</td><td class="c"><span class="tag b">区分B</span></td><td>公開情報</td></tr>
+        <tr><td>固有名詞や個人情報を含まない案内文・メール文案</td><td class="c"><span class="tag b">区分B</span></td><td>一般的な情報</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>区分ごとに使えるツール</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th></th><th>無料版・個人版<br><span class="muted">（事務所の承認あり）</span></th><th>企業版<br><span class="muted">（3つの鉄則を満たす）</span></th><th>マイナンバー対応の専用システム</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag ban">入力禁止</span></td><td class="c ng">×</td><td class="c ng">×</td><td class="c cond">承認があれば可</td></tr>
+        <tr><td><span class="tag a">区分A</span></td><td class="c ng">×</td><td class="c ok">○</td><td class="c ok">○</td></tr>
+        <tr><td><span class="tag b">区分B</span></td><td class="c ok">○</td><td class="c ok">○</td><td class="c ok">○</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="band ban">
+    <h3>入力禁止の情報（マイナンバー）について</h3>
+    <ul>
+      <li>職員がマイナンバーを汎用のAI・クラウドに入力すると、原則として<strong>マイナンバー法違反</strong>になります。規程第12条の禁止事項にも当たり、入力した職員は<strong>懲戒の対象</strong>になります。</li>
+      <li>入力してよい例外は2つです。①マイナンバーを扱う前提で作られ、事務所が承認した<strong>専用システム</strong>に入れる場合。②マイナンバー部分を<strong>復元できない状態で消した</strong>書類を入れる場合。</li>
+      <li>消し方の基準は「見た目で隠れているか」ではなく<strong>「データとして残っていないか」</strong>です。PDFの上に黒い図形を重ねただけでは、コピーや検索で番号を取り出せるので違反になります。</li>
+      <li>確実な方法は、職員が<strong>紙の段階で黒塗りやマスキングテープで隠してからスキャンする</strong>ことです。PDFの場合は、PDF編集ソフトの「墨消し」機能を使います。処理したあと、隠した番号が検索で見つからないことを確認します（文書C 参考資料D）。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-no">02</span><h2>区分A：顧問先の財務データ・個人情報・機密情報</h2></div>
+  <div class="tldr"><b>要点</b><span>事務所が契約した企業版で、AI会社とDPAを結び、学習利用をオフにし、顧問先の同意をもらってから使います。無料版は使えません。AIが出したものは、必ず担当税理士が確認します。</span></div>
+
+  <div class="band a">
+    <h3>使える条件（すべて満たすこと）</h3>
+  </div>
+  <ol class="conds">
+    <li><span>事務所が承認し、<strong>管理台帳（様式01）に登録された</strong>ツールであること <span class="ref">規程第10条1号</span></span></li>
+    <li><span>事務所が契約した<strong>企業版</strong>（ビジネス向けの有料プラン）であること <span class="ref">鉄則1</span></span></li>
+    <li><span>事務所とAI会社の間で<strong>DPA</strong>が結ばれていて、運用担当者がその内容を確認し、様式02に記録していること <span class="ref">鉄則2</span></span></li>
+    <li><span>生成AIの場合は、運用担当者が<strong>学習利用オフ</strong>を確認し、確認日を様式02に記録していること <span class="ref">鉄則2</span></span></li>
+    <li><span>生成AIなどで事務所の外でデータを処理する場合は、事務所が<strong>顧問先に説明して同意をもらっている</strong>こと（様式07）。クラウドに保管するだけなら、顧問契約書の条項でまとめて同意をもらう形でもよい <span class="ref">規程第10条5号</span></span></li>
+    <li><span>可能なら、職員が入力する前に、名前を伏字にするなどの匿名化を検討すること（任意） <span class="ref">規程第10条6号</span></span></li>
+  </ol>
+
+  <div>
+    <h3 style="margin-bottom:10px">主な活用場面</h3>
+    <ul class="uses">
+      <li>顧問先あてのメール・案内文の下書き</li>
+      <li>顧問先向けレポートの下書き</li>
+      <li>請求書・領収書のOCR読み取り</li>
+      <li>会計データの入力補助</li>
+      <li>申告書の入力ミスの発見補助</li>
+      <li>顧問先の同意をもらったうえでの、面談・会議の議事録</li>
+    </ul>
+  </div>
+
+  <div class="pair">
+    <div class="box ban">
+      <h4><span class="mark">×</span>禁止</h4>
+      <ul>
+        <li>区分Aの情報を、<strong>個人向け・無料版</strong>のプランで扱うこと</li>
+        <li>区分Aの情報を、<strong>DPAが適用されるか分からない</strong>ツールで扱うこと</li>
+        <li>区分Aの情報を、<strong>学習利用オフが確認できない</strong>ツールで扱うこと</li>
+        <li>区分Aの情報を、事務所が承認していないツールで扱うこと</li>
+        <li>顧問先の情報を含む会話で、<strong>「いいね／よくないね」などの評価ボタン</strong>を押すこと<small>評価ボタンを押すと、会話の内容がAI会社に送られます（規程第12条6号）</small></li>
+        <li>担当税理士の確認を受けずに、AIの出力をそのまま使ったり顧問先に渡したりすること<small>規程第12条3号・第14条</small></li>
+        <li>税務判断・税額計算・申告方針について、AIの出力をそのまま採用すること</li>
+        <li>顧問先や同席者の<strong>同意なしに録音・録画</strong>すること<small>電話越しの会話も同じです</small></li>
+        <li><strong>税務調査の場で録音・録画</strong>すること</li>
+      </ul>
+    </div>
+    <div class="box warn">
+      <h4><span class="mark">!</span>注意</h4>
+      <ul>
+        <li>企業版は初期状態で学習利用オフのことが多いですが、運用担当者が<strong>自分で設定画面を確認</strong>し、確認日を記録します。</li>
+        <li>OCRの読み取りは100%正確ではありません。職員が<strong>数字・固有名詞・特殊文字を目で確認</strong>します。</li>
+        <li>文字起こしの精度は完全ではありません。金額や人名は聞き間違いが起きやすい部分です。</li>
+        <li>AIは<strong>もっともらしい間違い</strong>を出すことがあります。税務の内容は、職員が条文や通達で裏付けを取ります。</li>
+        <li>AIへの入力と税理士の守秘義務との関係は、法律の解釈がまだ固まっていません。そのため事務所は、<strong>顧問先から書面で同意</strong>をもらっておくのが安全です。</li>
+        <li>海外の会社のサービスは「越境」に当たります。事務所による年1回以上の定期確認が必要です（4章を参照）。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-no">03</span><h2>区分B：公開情報・一般的な情報・匿名化した情報</h2></div>
+  <div class="tldr"><b>要点</b><span>事務所が承認したツールなら、無料版でも使えます。一番の事故は「区分Aの情報をうっかり混ぜる」ことです。</span></div>
+
+  <div class="band b">
+    <h3>使える条件</h3>
+  </div>
+  <ol class="conds b">
+    <li><span><strong>事務所が承認したツール</strong>であること。職員が誤って区分Aの情報を入れるのを防ぐためです <span class="ref">規程第11条</span></span></li>
+    <li><span>事務所が承認していれば、<strong>無料版・個人版でも使えます</strong>（鉄則1・2は不要） <span class="ref">概要版 第2章</span></span></li>
+  </ol>
+
+  <div>
+    <h3 style="margin-bottom:10px">主な活用場面</h3>
+    <ul class="uses">
+      <li>一般的な文書・メール文案の作成、チェック、要約</li>
+      <li>法令・通達の概要の確認と要点の整理</li>
+      <li>税制改正や判例の情報収集</li>
+      <li>外国語資料の翻訳補助</li>
+      <li>専門用語のやさしい説明</li>
+      <li>公表済みの決算数値を使った経営分析</li>
+    </ul>
+  </div>
+
+  <div class="pair">
+    <div class="box ban">
+      <h4><span class="mark">×</span>禁止</h4>
+      <ul>
+        <li>職員が、事務所の<strong>承認していないツール</strong>を使うこと</li>
+        <li>区分Bのつもりで、<strong>顧問先の名前や個人情報を混ぜて</strong>入力すること<small>無料版に区分Aの情報を入れると、規程第12条2号の違反になります</small></li>
+        <li>事務所が承認していないブラウザ拡張機能・アドオンを入れて使うこと<small>公的機関や、事務所が契約しているベンダーの公式ツールは除きます</small></li>
+      </ul>
+    </div>
+    <div class="box warn">
+      <h4><span class="mark">!</span>注意</h4>
+      <ul>
+        <li><strong>ツールの選び間違い</strong>に気をつけます。区分B用の無料版に区分Aの情報を入れてしまうのが、一番起きやすい事故です。</li>
+        <li>AIによる法令や通達の要約は入口として使い、顧問先にどう適用するかは、職員が<strong>必ず条文で裏付け</strong>を取ります。</li>
+        <li>区分Bで作ったものでも、<strong>顧問先に渡す前には担当税理士が確認・承認</strong>します。</li>
+        <li>有料記事など、利用規約で転載やAIへの入力が禁止されているものを職員が入れると、事務所が<strong>契約違反</strong>を問われる場合があります。</li>
+        <li>AIが作った文章や画像を使う前に、他人の著作権を侵害していないか確認します。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-no">04</span><h2>共通ルール：区分に関係なく守ること</h2></div>
+  <div class="tldr"><b>要点</b><span>ツールは承認制、役割を3つ決める、年1回の定期確認、年2回の研修。トラブルのときは「止める・記録・電話で報告」が最初の3手です。</span></div>
+
+  <div class="pair">
+    <div class="box do">
+      <h4><span class="mark">○</span>するべきこと</h4>
+      <ul>
+        <li>事務所は、<strong>新しいツールを承認制</strong>にする。職員の申請（7項目チェック・様式02）→ 管理責任者の承認 → 管理台帳（様式01）に登録、の順で進める</li>
+        <li>事務所は、<strong>3つの役割の担当者を決める</strong>。管理責任者（所長）、運用担当者（IT担当）、品質責任者（担当税理士）。1人が兼任してもよい</li>
+        <li>事務所は、文書Cの<strong>規程ひな型（全19条）</strong>をもとに、事務所の規程を定める</li>
+        <li>運用担当者が、<strong>年1回以上、2つの定期確認</strong>を行う。①AI会社の監督（個人情報保護法第25条）、②海外の会社の保護水準の確認（第28条）。結果は様式06に記録する</li>
+        <li>職員は<strong>入職時の研修</strong>と、<strong>年2回以上の定期研修</strong>を受ける</li>
+        <li>事務所は、職員の入職時や、職員がツールを使い始めるときに、<strong>誓約書（様式10）</strong>を出してもらう</li>
+        <li>AIの出力を顧問先に出す前に、<strong>担当税理士が確認・承認</strong>する</li>
+        <li>運用担当者が、クラウドの<strong>共有設定を四半期ごとに確認</strong>する。退職した職員の権限は、退職日のうちに削除する</li>
+      </ul>
+    </div>
+    <div class="box ban">
+      <h4><span class="mark">×</span>してはいけないこと</h4>
+      <ul>
+        <li>職員が、マイナンバーを汎用のAI・クラウドに入力すること</li>
+        <li>職員が、個人で契約したツールを無断で業務に使うこと<small>シャドーIT。便利なツールを見つけたら、使う前に事務所に申請します</small></li>
+        <li>事務所が承認していないブラウザ拡張機能を入れること<small>公式ストアにあることは、安全の保証になりません</small></li>
+        <li>AIの出力を、担当税理士の確認なしに顧問先に渡すこと</li>
+        <li>相手の同意なしに録音すること、税務調査の場で録音すること</li>
+        <li>AIエージェントに、送信・削除・外部公開などの重要な操作や、申告データの送信を任せきりにすること</li>
+        <li>トラブルが起きたとき、管理責任者に<strong>メールだけで報告</strong>すること<small>第一報は電話か対面で行います</small></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box warn">
+    <h4><span class="mark">!</span>考えておかないといけないこと</h4>
+    <ul>
+      <li><strong>同じサービスでも、プランによって中身が違います。</strong>個人版と法人版では、DPAや学習利用の扱いが変わります。事務所は、管理台帳にプラン名と契約アカウントまで書きます。</li>
+      <li><strong>海外のサービス（越境）。</strong>国内でよく使われているAIの多くは、海外の会社のサービスです。事務所は、運営会社の本店所在地・資本関係・データの保存場所（リージョン）・透明性レポートを確認します。国内リージョンや日本法人があると、リスクを減らせる場合があります。</li>
+      <li><strong>地政学リスク。</strong>国によっては、政府が自国の企業にデータの提出を命じることができます。機密性の高い情報を扱うツールは、運営会社がどの国の会社かまで確認します。</li>
+      <li><strong>会計・給与・税務ソフトに組み込まれたAI。</strong>ガイドラインの直接の対象外ですが、ソフトのベンダーが裏で外部のAI会社を使っていることがあります。事務所は、ベンダーとの契約で、再委託先の管理やトラブル時の通知が決まっているかを確認します。</li>
+      <li><strong>スマートフォンや録音機器。</strong>小さなパソコンと考えて、事務所のパソコンと同じように管理します。事務所が職員に貸し出し、なくしたときに遠隔でロック・消去できるようにしておくことが勧められています。</li>
+      <li><strong>税賠保険。</strong>事務所の保険に、情報漏えいやサイバーリスクの特約が付いているか、使える条件は何かを確認しておきます。</li>
+      <li><strong>ガイドラインの更新。</strong>日税連のガイドラインは、年1回以上、または大きな変更があったときに改訂されます。事務所は、そのたびに事務所の規程も見直します。</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3 style="margin-bottom:12px">トラブル（誤入力・情報漏えいの疑い）が起きたときの5段階</h3>
+    <ol class="incident">
+      <li><span class="n">第1段階・職員</span><b>止める</b>気づいた職員が、ツールの使用をすぐやめる。周りの職員にも止めるよう伝える</li>
+      <li><span class="n">第2段階・職員</span><b>記録する</b>入力した内容・日時・ツール名・使った人をメモし、画面を保存する</li>
+      <li><span class="n">第3段階・職員</span><b>報告する</b>管理責任者に、電話か対面で第一報を入れる</li>
+      <li><span class="n">第4段階・事務所</span><b>対応する</b>管理責任者がAI会社にデータの削除を依頼し、顧問先や個人情報保護委員会への報告を検討する</li>
+      <li><span class="n">第5段階・事務所</span><b>再発防止</b>管理責任者が報告書（様式05）を作り、全職員に周知する</li>
+    </ol>
+  </div>
+</section>
+
+<!-- tools -->
+<section id="tools">
+  <div class="sec-head"><span class="sec-no">付録</span><h2>こういったツールは気をつけましょう</h2></div>
+  <div class="tldr"><b>要点</b><span>対象はチャット型AIだけではありません。録音機器、会議ボット、資料読み込みAI、クラウドノート、ブラウザ拡張機能も対象です。どれも条件を満たせば使えますが、落とし穴がそれぞれ違います。</span></div>
+
+  <p>規程第3条では、<strong>事務所の業務で使うすべてのAI・クラウドサービス（SaaS、クラウドストレージ、Web会議、チャットなど）とブラウザ拡張機能</strong>が対象になります。対象外は、事務所内のパソコンだけで動くものと、会計ソフトに組み込まれたAI機能だけです。</p>
+
+  <div class="tools">
+    <div class="tool">
+      <div><h3>PLAUD NOTE</h3><span class="cat">録音機器＋AI文字起こし・要約</span></div>
+      <ul>
+        <li>録音した会話は基本的に<strong>区分A</strong>です。</li>
+        <li>職員は、録音の前に相手方全員の<strong>同意</strong>を取ります。税務調査の場では使いません。</li>
+        <li>本体はポケットに入る大きさなので、<strong>なくすと情報漏えい</strong>につながります。事務所が職員に貸し出して管理します。</li>
+        <li>職員が個人で買ったものを、無断で業務に使うのは禁止です。</li>
+        <li>運営会社は海外です。越境の定期確認が必要です。</li>
+      </ul>
+      <p class="rule"><b>区分Aで使う目安：</b>DPAが付いた法人向けのTeamプラン。個人プランは区分Bだけ。</p>
+    </div>
+    <div class="tool">
+      <div><h3>tl;dv などの会議録画AI</h3><span class="cat">Web会議に参加する録画・議事録ボット</span></div>
+      <ul>
+        <li>会議の内容は<strong>区分A</strong>です。区分Bで使う場面はほとんどありません。</li>
+        <li>ボットが会議に参加するので、職員が<strong>参加者全員から事前に同意</strong>を取ります。</li>
+        <li>会議ツールと連携すると、<strong>ボットが自動で全部の会議に参加する設定</strong>になっていることがあります。録音してよい会議以外まで録られないか、設定を確認します。</li>
+        <li>運営会社は海外です。越境の定期確認が必要です。</li>
+      </ul>
+      <p class="rule"><b>区分Aで使う目安：</b>DPAを結べるビジネスプランで、学習利用オフを確認する。</p>
+    </div>
+    <div class="tool">
+      <div><h3>NotebookLM</h3><span class="cat">資料を読み込ませて使う生成AI</span></div>
+      <ul>
+        <li>資料を<strong>丸ごとアップロード</strong>する使い方なので、区分Aの情報が入りやすいツールです。</li>
+        <li><strong>個人のGoogleアカウント</strong>と<strong>Google Workspace（法人）</strong>では、契約の条件がまったく違います。</li>
+        <li>職員の個人アカウントで読み込ませてよいのは、法令・通達などの区分Bの資料だけです。</li>
+        <li>マイナンバーが載った資料は、アップロードする前に番号を消します。</li>
+      </ul>
+      <p class="rule"><b>区分Aで使う目安：</b>事務所のWorkspaceアカウントで、DPAが適用されていることを確認する。</p>
+    </div>
+    <div class="tool">
+      <div><h3>Notion などのクラウドノート</h3><span class="cat">SaaS（AI機能付きのものもある）</span></div>
+      <ul>
+        <li>AIを使わなくても<strong>クラウドサービスとして対象</strong>になります。</li>
+        <li>Notion AIのような<strong>AI機能を使う場合</strong>は、学習利用オフも確認します。</li>
+        <li><strong>共有リンクの設定ミス</strong>が漏えいに直結します。顧問先ごとに、ページを見られる人を分けます。</li>
+      </ul>
+      <p class="rule"><b>区分Aで使う目安：</b>事務所が企業版のプランを契約し、DPAを結ぶ。AI機能は学習利用オフを確認する。</p>
+    </div>
+    <div class="tool">
+      <div><h3>ブラウザ拡張機能</h3><span class="cat">翻訳・文章校正・AIアシスタントなど</span></div>
+      <ul>
+        <li>拡張機能の中には、<strong>画面の内容や入力中の文字を外部に送る</strong>ものがあります。会計ソフトの画面に出ている顧問先の情報も、読み取られるおそれがあります。</li>
+        <li>公式ストアにあることは、安全の保証になりません。</li>
+        <li>公的機関や契約しているベンダーの公式ツールを除き、<strong>承認なしでのインストールは禁止</strong>です。</li>
+      </ul>
+      <p class="rule"><b>使う目安：</b>職員は必ず事務所に承認申請を出す。事務所は、区分Aの情報が映る画面で動かしてよいかも審査する。</p>
+    </div>
+    <div class="tool">
+      <div><h3>AIエージェント</h3><span class="cat">メール送信やファイル操作を自動で行うAI</span></div>
+      <ul>
+        <li>AIがほかのシステムを自動で操作するので、<strong>AIが間違えたときの影響が大きく</strong>なります。</li>
+        <li>事務所は、最初はAIに<strong>読み取りだけの権限</strong>を与えるところから始めます。</li>
+        <li>送信・削除・外部公開は、必ず職員が最後に確認します。申告データの送信はAIに任せません。</li>
+      </ul>
+      <p class="rule"><b>区分Aで使う目安：</b>企業版の条件に加えて、操作できる範囲を絞る。</p>
+    </div>
+  </div>
+
+  <div class="check">
+    <h3>ツールを選ぶときの7項目チェック</h3>
+    <ol>
+      <li><span class="must">企業版（ビジネス向け有料プラン）か</span></li>
+      <li><span class="must">DPAがあるか</span></li>
+      <li><span class="must">学習利用を止められるか</span></li>
+      <li>データの保存場所と削除方法がはっきりしているか</li>
+      <li>セキュリティ認証（SOC 2・ISO 27001など）があるか</li>
+      <li>運営会社・本店はどこの国か</li>
+      <li>生成したものの権利関係がはっきりしているか</li>
+    </ol>
+    <p class="muted" style="font-size:13.5px">区分Aの情報を扱うツールは、橙色の①②③が必須です。</p>
+  </div>
+  <p class="muted" style="font-size:13.5px">各ツールの記載は、2026年10月時点の公開情報をもとにした一般的な注意点です。プランの内容や契約条件は変わることがあるため、導入するときは各社の利用規約・DPA・Trust Centerの原文で確認してください。</p>
+</section>
+
+<!-- forms -->
+<section id="forms">
+  <div class="sec-head"><span class="sec-no">付録</span><h2>様式一覧（文書C）</h2></div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>様式</th><th>名前</th><th>使う場面</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">01</td><td>承認済みAI・クラウド管理台帳（兼 監査シート）</td><td>承認したツールの一覧。プラン名・使える区分も記録する</td></tr>
+        <tr><td class="mono">02</td><td>AI・クラウド リスク判定・承認申請書</td><td>新しいツールの申請。DPA・学習利用オフの確認も記録する</td></tr>
+        <tr><td class="mono">03</td><td>例外申請書</td><td>職員が、規程どおりにできない事情があるとき</td></tr>
+        <tr><td class="mono">04</td><td>レビュー記録</td><td>AIの出力を税理士が確認した記録（業務処理簿で代わりにできる）</td></tr>
+        <tr><td class="mono">05</td><td>インシデント報告書</td><td>誤入力・情報漏えいが起きたとき</td></tr>
+        <tr><td class="mono">06</td><td>定期確認記録（重点対象）</td><td>年1回以上の定期確認の記録</td></tr>
+        <tr><td class="mono">07</td><td>生成AI等 利用説明・同意書</td><td>区分Aの情報をAIで扱うときに、事務所が顧問先から同意をもらう</td></tr>
+        <tr><td class="mono">08</td><td>AI・クラウド利用ログ</td><td>いつ・誰が・何に使ったかの記録</td></tr>
+        <tr><td class="mono">09</td><td>インシデント緊急フロー（簡易版）</td><td>壁に貼って使う、トラブル時の手順</td></tr>
+        <tr><td class="mono">10</td><td>AI・クラウド利用に関する誓約書</td><td>職員の入職時や、職員が新しいツールを使い始めるとき</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>このレポートは、ガイドラインの内容を事務所内で共有するために要約したものです。正式な判断は、ガイドライン本文（概要版・文書A・B・C）と事務所の規程にもとづいて行ってください。</p>
+  <p>出典：日本税理士会連合会 デジタル・システム委員会「税理士事務所のためのAI・クラウド活用ガイドライン」Ver1.0（令和8年9月25日）</p>
+</footer>
+
+</div>
+
+</body>
+</html>
